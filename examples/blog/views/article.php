@@ -1,4 +1,4 @@
-<h1>Blog</h1>
+<h1><a href="<?php echo Toro::get_root_path(); ?>">Blog</a></h1>
 <? include("_article.php"); ?>
 
 <h3>Comments (<?php echo count($comments); ?>)</h3>
@@ -9,7 +9,7 @@
 ?>
 
 <h4>Add Comment</h4>
-<form method="post" action="/article/<?php echo $article['slug']; ?>/comment">
+<form method="post" action="<?php echo Toro::getRootPath(); ?>/article/<?php echo $article['slug']; ?>/comment">
     <strong>Name:</strong><br/>
     <input type="text" name="name" /><br/>
     <strong>Message:</strong><br/>

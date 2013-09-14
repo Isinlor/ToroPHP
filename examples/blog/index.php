@@ -16,4 +16,4 @@ Toro::serve(array(
     "/" => "ArticlesHandler",
     "/article/:alpha" => "ArticleHandler",
     "/article/:alpha/comment" => "CommentHandler"
-));
+), '');
