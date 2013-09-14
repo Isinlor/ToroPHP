@@ -2,7 +2,9 @@
 
 class Toro
 {
-    public static function serve($routes)
+    private static $rootPath;
+
+    public static function serve($routes, $rootPath = null)
     {
         ToroHook::fire('before_request', compact('routes'));
 
@@ -19,7 +21,11 @@ class Toro
                 $path_info = (strpos($_SERVER['REQUEST_URI'], '?') > 0) ? strstr($_SERVER['REQUEST_URI'], '?', true) : $_SERVER['REQUEST_URI'];
             }
         }
-        
+
+        self::$rootPath = $rootPath;
+
+        $path_info = str_replace($rootPath, "/", $path_info);
+
         $discovered_handler = null;
         $regex_matches = array();
 
@@ -71,6 +77,10 @@ class Toro
         }
 
         ToroHook::fire('after_request', compact('routes', 'discovered_handler', 'request_method', 'regex_matches', 'result'));
+    }
+
+    public static function getRootPath(){
+        return self::$rootPath;
     }
 
     private static function is_xhr_request()
