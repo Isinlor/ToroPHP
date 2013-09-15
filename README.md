@@ -76,7 +76,7 @@ Toro::serve(array(
 ```
 
 Pattern matches are passed in order as arguments to the handler's request
-method. In the case of `ProductHandler` above:
+method. In the case of `CatalogHandler` above:
 
 ```php
 <?php
