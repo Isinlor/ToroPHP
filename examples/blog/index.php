@@ -5,7 +5,7 @@ require("handlers/comment_handler.php");
 require("lib/markdown.php");
 require("lib/mysql.php");
 require("lib/queries.php");
-require("lib/toro.php");
+require("lib/Toro.php");
 
 ToroHook::add("404", function() {
     echo "Not found";

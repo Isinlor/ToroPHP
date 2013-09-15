@@ -12,6 +12,6 @@ A very simple blog written with Toro.
 
 ## Install
 
-1. Grab a copy of `toro.php` from the repository and store in the `lib/` directory
+1. Grab a copy of `Toro.php` from the repository and store in the `lib/` directory
 2. Create a database called `toroblog` and execute the `toroblog.sql` dump
 3. Adjust your MySQL database/user information in `lib/mysql.php`
