@@ -7,6 +7,6 @@ class CommentHandler {
             strlen(trim($_POST['name'])) > 0 && strlen(trim($_POST['body'])) > 0) {
             save_comment($article['id'], trim($_POST['name']), trim($_POST['body']));
         }
-        header("Location: ".Toro::get_root_path()."/article/$slug");
+        header("Location: ".toToro()."/article/$slug");
     }
 }
