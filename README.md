@@ -47,9 +47,9 @@ Routing with Toro is simple:
 
 Toro::serve(array(
     "/" => "SplashHandler",
-    "/catalog/page/:number" => "CatalogHandler",
     "/product/:alpha" => "ProductHandler",
-    "/manufacturer/:string" => "ManufacturerHandler"
+    "/manufacturer/:string" => "ManufacturerHandler",
+    "/catalog/:alpha/page/:number" => "CatalogHandler"
 ));
 ```
 
@@ -69,9 +69,9 @@ also be expressed as:
 
 Toro::serve(array(
     "/" => "SplashHandler",
-    "/catalog/page/([0-9]+)" => "CatalogHandler",
     "/product/([a-zA-Z0-9-_]+)" => "ProductHandler",
-    "/manufacturer/([a-zA-Z]+)" => "ManufacturerHandler"
+    "/manufacturer/([a-zA-Z]+)" => "ManufacturerHandler",
+    "/catalog/([a-zA-Z0-9-_]+)/page/([0-9]+)" => "CatalogHandler"
 ));
 ```
 
@@ -81,9 +81,9 @@ method. In the case of `ProductHandler` above:
 ```php
 <?php
 
-class ProductHandler {
-    function get($name) {
-        echo "You want to see product: $name";
+class CatalogHandler {
+    function get($catalog_name, $page) {
+        echo "Items in $catalog_name on page $page ...";
     }
 }
 ```
