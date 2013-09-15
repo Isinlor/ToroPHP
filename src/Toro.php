@@ -2,9 +2,7 @@
 
 class Toro
 {
-    private static $rootPath;
-
-    public static function serve($routes, $rootPath = null)
+    public static function serve($routes)
     {
         ToroHook::fire('before_request', compact('routes'));
 
@@ -19,12 +17,15 @@ class Toro
         else {
             if (!empty($_SERVER['REQUEST_URI'])) {
                 $path_info = (strpos($_SERVER['REQUEST_URI'], '?') > 0) ? strstr($_SERVER['REQUEST_URI'], '?', true) : $_SERVER['REQUEST_URI'];
+                if(!empty($_SERVER['SCRIPT_NAME'])){
+                    $path_info = str_replace($_SERVER['SCRIPT_NAME'], "/", $path_info);
+                    if(strpos($_SERVER['SCRIPT_NAME'], "/index.") !== false){
+                        $script_dir = strstr($_SERVER['SCRIPT_NAME'], '/index.', true);
+                        $path_info = str_replace($script_dir, "/", $path_info);
+                    }      
+                }
             }
         }
-
-        self::$rootPath = $rootPath;
-
-        $path_info = str_replace($rootPath, "/", $path_info);
 
         $discovered_handler = null;
         $regex_matches = array();
@@ -79,10 +80,6 @@ class Toro
         ToroHook::fire('after_request', compact('routes', 'discovered_handler', 'request_method', 'regex_matches', 'result'));
     }
 
-    public static function getRootPath(){
-        return self::$rootPath;
-    }
-
     private static function is_xhr_request()
     {
         return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
@@ -121,4 +118,9 @@ class ToroHook
         }
         return self::$instance;
     }
+}
+
+function toToro()
+{
+    return isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : '';
 }
