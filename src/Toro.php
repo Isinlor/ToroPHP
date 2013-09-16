@@ -119,8 +119,3 @@ class ToroHook
         return self::$instance;
     }
 }
-
-function toToro()
-{
-    return isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : '';
-}

@@ -1,4 +1,5 @@
 <?php
+
 require("handlers/article_handler.php");
 require("handlers/articles_handler.php");
 require("handlers/comment_handler.php");
@@ -6,6 +7,11 @@ require("lib/markdown.php");
 require("lib/mysql.php");
 require("lib/queries.php");
 require("lib/Toro.php");
+
+function toToro()
+{
+    return isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : '';
+}
 
 ToroHook::add("404", function() {
     echo "Not found";
