@@ -1,5 +1,5 @@
 {
-    "name": "torophp/torophp",
+    "name": "isinlor/torophp",
     "type": "library",
     "description": "Toro is a PHP router for developing RESTful web applications and APIs.",
     "keywords": [
@@ -7,7 +7,7 @@
         "php",
         "router"
     ],
-    "homepage": "http://github.com/anandkunal/ToroPHP",
+    "homepage": "http://github.com/Isinlor/ToroPHP",
     "license": "MIT",
     "authors": [
         {
@@ -46,14 +46,17 @@
             "name": "Jason Mooberry",
             "homepage": "http://jasonmooberry.com/",
             "role": "Developer"
+        },
+        {
+            "name": "Tomasz Darmetko",
+            "homepage": "http://exegi.pl",
+            "role": "Contributor"
         }
     ],
     "require": {
         "php": ">=5.3.0"
     },
     "autoload": {
-        "files": [
-            "src/Toro.php"
-        ]
+        "psr-0": { "ToroPHP\\": "ToroPHP/" }
     }
 }
