@@ -45,11 +45,32 @@ class Toro
         );
     }
 
+    protected static function setHookInvokeHandler()
+    {
+        ToroHook::add("invoke_handler", function($handler) {
+            return new $handler();
+        });
+    }
+
+    protected static function setHookCallRequestedMethod()
+    {
+        ToroHook::add("call_requested_method", function($options) {
+            return call_user_func_array($options[0], $options[1]);
+        });
+    }
+
     public static function serve($routes)
     {
         self::$routes = $routes;
 
         ToroHook::fire('before_request', compact('routes'));
+
+        if(!ToroHook::isAdded("invoke_handler")){
+            self::setHookInvokeHandler();
+        }
+        if(!ToroHook::isAdded("call_requested_method")){
+            self::setHookCallRequestedMethod();
+        }
 
         $request_method = strtolower($_SERVER['REQUEST_METHOD']);
 
@@ -77,7 +98,8 @@ class Toro
         $result = null;
         if ($discovered_handler && class_exists($discovered_handler)) {
             unset($regex_matches[0]);
-            $handler_instance = new $discovered_handler();
+
+            $handler_instance = ToroHook::fire('invoke_handler', $discovered_handler);
 
             if (self::isXhrRequest() && method_exists($discovered_handler, $request_method . '_xhr')) {
                 self::setXhrResponseHeaders();
@@ -86,7 +108,7 @@ class Toro
 
             if (method_exists($handler_instance, $request_method)) {
                 ToroHook::fire('before_handler', compact('routes', 'discovered_handler', 'request_method', 'regex_matches'));
-                $result = call_user_func_array(array($handler_instance, $request_method), $regex_matches);
+                $result =  ToroHook::fire('call_requested_method', array(array($handler_instance, $request_method), $regex_matches));
                 ToroHook::fire('after_handler', compact('routes', 'discovered_handler', 'request_method', 'regex_matches', 'result'));
             } else {
                 ToroHook::fire('404', compact('routes', 'discovered_handler', 'request_method', 'regex_matches'));

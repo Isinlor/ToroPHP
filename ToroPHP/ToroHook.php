@@ -16,12 +16,18 @@ class ToroHook
         $instance->hooks[$hook_name][] = $fn;
     }
 
+    public static function isAdded ($hook_name)
+    {
+        $instance = self::getInstance();
+        return isset($instance->hooks[$hook_name]);
+    }
+
     public static function fire($hook_name, $params = null)
     {
         $instance = self::getInstance();
-        if (isset($instance->hooks[$hook_name])) {
+        if (self::isAdded($hook_name)) {
             foreach ($instance->hooks[$hook_name] as $fn) {
-                call_user_func_array($fn, array(&$params));
+                return call_user_func_array($fn, array(&$params));
             }
         }
     }
